@@ -16,10 +16,14 @@ RUN npm install -g carto
 RUN carto project.mml > mapnik.xml
 RUN sed -i "s/'https:\/\/fonts.google.com\/download?family=Noto%20Emoji'/https:\/\/archive.org\/download\/noto-emoji\/Noto_Emoji.zip/" ./scripts/get-fonts.sh
 RUN ./scripts/get-fonts.sh
+RUN mkdir data
+RUN chmod ugo+rw data
 
 COPY init.sh /docker-entrypoint-initdb.d/init-user-db.sh
 WORKDIR "/"
 COPY *.otf base.xml *.csv getmaps.py /
+
+
 #FIXME PostGres database needs to start running and init.sh run before the rest of the commands
 
 # FIXME User should be able to specify the google drive ID and the ward name in the next line
