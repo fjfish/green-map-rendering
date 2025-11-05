@@ -4,9 +4,8 @@ RUN apt-get update && apt-get upgrade -y && apt install -y \
     git tar unzip wget bzip2 lua5.1 \
     mapnik-utils python3-mapnik python3-psycopg2 \
     python3-yaml gdal-bin npm node-carto \
-    osm2pgsql net-tools curl nik4
-COPY init.sh /docker-entrypoint-initdb.d/init-user-db.sh
-COPY test.py /test.py
+    osm2pgsql net-tools curl nik4 python3-pil
+
 RUN wget https://download.geofabrik.de/europe/united-kingdom/england/merseyside-latest.osm.pbf
 WORKDIR "/src"
 RUN git clone https://github.com/gravitystorm/openstreetmap-carto
@@ -15,3 +14,17 @@ RUN git pull --all
 RUN git switch --detach v5.9.0
 RUN npm install -g carto
 RUN carto project.mml > mapnik.xml
+RUN sed "s/'https:\/\/fonts.google.com\/download?family=Noto%20Emoji'/https:\/\/archive.org\/download\/noto-emoji\/Noto_Emoji.zip/" scripts/get-fonts.sh
+# FIXME, it looks like the get-fonts.sh is not changed... I checked the command on my computer
+RUN scripts/get-fonts.sh
+
+COPY init.sh /docker-entrypoint-initdb.d/init-user-db.sh
+WORKDIR "/"
+COPY *.otf base.xml *.csv getmaps.py /
+#FIXME PostGres database needs to start running and init.sh run before the rest of the commands
+
+# FIXME User should be able to specify the google drive ID and the ward name in the next line
+RUN python3 getmaps.py 1Dpz_dnouwZWP4I7i-Uu9EYcNk-jKt6w Oxton 
+
+# FIXME An Oxton directory then wants to be copied back to the users computer
+

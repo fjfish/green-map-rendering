@@ -33,7 +33,4 @@ mkdir data
 sudo chown _renderd data
 sudo -u _renderd scripts/get-external-data.py
 
-cd /src/openstreetmap-carto/
-scripts/get-fonts.sh
-
 echo Done init
