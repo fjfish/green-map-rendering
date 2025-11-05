@@ -4,7 +4,7 @@ set -e
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
 	CREATE USER _renderd;
 	CREATE DATABASE gis WITH OWNER "_renderd" ENCODING 'UTF8';
-	GRANT ALL PRIVILEGES ON DATABASE gic TO _renderd;
+	GRANT ALL PRIVILEGES ON DATABASE gis TO _renderd;
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "gis" <<-EOSQL
