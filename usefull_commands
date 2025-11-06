@@ -1,0 +1,8 @@
+sudo docker build -t render_map .
+sudo docker rm render_map_name
+sudo docker run --name render_map_name  -e POSTGRES_PASSWORD=my_secret_password -p 5431:5432 render_map
+
+sudo docker start render_map_name
+sudo docker exec -it render_map_name python3 getmaps.py 1Dpz_dnouwZWP4I7i-Uu9EYcNk-jKt6w\&ll Oxton
+sudo docker cp render_map_name:/Oxton .
+sudo chown -R martin Oxton
