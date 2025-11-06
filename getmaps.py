@@ -136,7 +136,7 @@ def make_image(path, folder_name, name, text, kml_file, points_file = None):
                   ("A5", ["-a", "-5"])]:
         outputjpeg = os.path.join(path, d, f"{name}.jpeg")
         Path(outputjpeg).parent.mkdir(exist_ok=True, parents=True)
-        subprocess.run(["nik4", "--fit", "boundary", "-p", "600"] + ps + [mapnik_file, outputjpeg])
+        subprocess.run(["nik4", "--fit", "boundary", "-p", "600", "--fonts", r"/src/openstreetmap-carto/fonts"] + ps + [mapnik_file, outputjpeg])
         im = Image.open(outputjpeg)
         width, height = im.size
         draw = ImageDraw.Draw(im)
